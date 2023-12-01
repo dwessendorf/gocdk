@@ -4,18 +4,17 @@ import (
 	"log"
 	"os"
 	"regexp"
-	"strings"
 
 	"github.com/dwessendorf/gocdk/pkg/cdkwrapper"
 	"github.com/dwessendorf/gocdk/pkg/messaging"
 )
 
 func main() {
-	// Get phone number and API key from environment variables
-	phoneNumber := os.Getenv("GOCDK_PHONE")
-	apiKey := os.Getenv("GOCDK_APIKEY")
-	if phoneNumber == "" || apiKey == "" {
-		log.Fatalf("Environment variables GOCDK_PHONE or GOCDK_APIKEY are not set")
+	// Get Slack OAuth token and Channel ID from environment variables
+	slackToken := os.Getenv("SLACK_TOKEN")
+	slackChannelID := os.Getenv("SLACK_CHANNEL_ID")
+	if slackToken == "" || slackChannelID == "" {
+		log.Fatalf("Environment variables SLACK_TOKEN or SLACK_CHANNEL_ID are not set")
 	}
 
 	// Check if CDK arguments are provided
@@ -32,37 +31,28 @@ func main() {
 		log.Printf("Error executing CDK command: %v", err)
 	}
 
-	replacedString := strings.ReplaceAll(output, "==", "=")
-	replacedString = strings.ReplaceAll(replacedString, "$", "Dollar")
-	replacedString = strings.ReplaceAll(replacedString, "function", "function_")
+	// replacedString := strings.ReplaceAll(output, "==", "=")
+	// replacedString = strings.ReplaceAll(replacedString, "$", "Dollar")
+	// replacedString = strings.ReplaceAll(replacedString, "function", "function_")
 
 	// Prepare the output message
-	re := regexp.MustCompile(`[\x1b\x0f]\[[0-9;]*m|┌─┐|└─┘|├─┤|│|─|└┴┘├┼┤┌┬┐└┴┘├┼┼┼┼┼┤`)
-	outputString := re.ReplaceAllString(replacedString, "")
+	re := regexp.MustCompile(`[\x1b\x0f]\[[0-9;]*m`)
+	output = re.ReplaceAllString(output, "")
 
-	// Keep only the last 2200 characters
-	if len(outputString) > 1400 {
-		outputString = outputString[:len(outputString)-1400]
+	if len(output) > 3000 {
+		start := len(output) - 3000
+		output = output[start:]
 	}
 
+	output = "```\n" + output + "\n```"
 	// Append "SUCCESS" or "FAILURE"
 	statusMessage := "FAILURE"
 	if exitStatus == 0 {
 		statusMessage = "SUCCESS"
 	}
-	outputString = statusMessage + "\n" + outputString
-
-	// Send the message in chunks
-	const maxMessageLength = 500
-	for start := 0; start < len(outputString); start += maxMessageLength {
-		end := start + maxMessageLength
-		if end > len(outputString) {
-			end = len(outputString)
-		}
-
-		messageChunk := outputString[start:end]
-		if err := messaging.SendMessage(phoneNumber, messageChunk, apiKey); err != nil {
-			log.Fatalf("Error sending WhatsApp message: %v", err)
-		}
+	output = statusMessage + "\n" + output
+	if err := messaging.SendMessage(slackToken, slackChannelID, output); err != nil {
+		log.Fatalf("Error sending Slack message: %v", err)
 	}
+	// Send the message in chunks
 }
