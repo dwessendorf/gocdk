@@ -19,12 +19,12 @@ To use this integration, you need to create a Slack app and obtain an OAuth toke
 * Choose "From scratch" and give your app a name.
 * Select the Slack workspace where you want to install the app.
 
-1. **Add Permissions to Your Slack App** :
+2. **Add Permissions to Your Slack App** :
 
 * In the app settings, go to "OAuth & Permissions".
 * Under "Scopes", add the necessary permissions. For sending messages, add `chat:write`.
 
-1. **Install App to Workspace** :
+3. **Install App to Workspace** :
 
 * At the top of the "OAuth & Permissions" page, click "Install to Workspace" and authorize the permissions.
 
@@ -42,7 +42,7 @@ Set up your environment with the Slack OAuth token and the channel ID where mess
 * Set `SLACK_CHANNEL_ID` with the ID of the channel where messages will be sent.
 * These can be set in your shell or through a `.env` file.
 
-1. **Compile and Run the GoCDK Project** :
+2. **Compile and Run the GoCDK Project** :
 
 * Navigate to your GoCDK project directory.
 * Compile and run your project. It should now send messages to the specified Slack channel.
@@ -63,4 +63,4 @@ Contributions to this project are welcome. Please follow the standard fork-and-p
 
 ## License
 
-[Your License Information]
+MIT License
