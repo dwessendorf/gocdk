@@ -1,125 +1,66 @@
 
-# Usage
+# Background
+Integrating Slack with CDK calls offers significant benefits, especially for long-running processes. By receiving notifications directly in Slack, users can promptly respond to the outcomes of CDK deployments, making timely corrections and restarts as necessary. This integration is particularly useful for:
+
+- **Monitoring Long-Running Processes**: CDK deployments or updates can take time. Slack integration provides real-time notifications, allowing users to focus on other tasks without the need to constantly check the terminal.
+- **Immediate Feedback**: Receive instant alerts on the status of CDK commands, enabling quicker responses to success or failure messages.
+- **Collaborative Troubleshooting**: Share deployment statuses with team members in Slack channels, fostering collaborative debugging and problem-solving.
+- **Automated Workflows**: Streamline CI/CD pipelines by integrating CDK command outputs directly into Slack, providing a centralized platform for deployment updates.
+
+# Usage of GoCDK
 
 ## Overview
+This README provides instructions on how to use the compiled binary of the GoCDK project and integrate it with Slack for streamlined CDK command execution and Slack notifications.
 
-This section provides instructions on how to use the compiled binary of the GoCDK project in other code repositories. This can be useful if you want to integrate the GoCDK functionalities into different projects or workflows.
+## Installation and Configuration
 
-## Steps to Use the Binary
-
-### Step 1: Compile the GoCDK Binary
-
-First, ensure that you have compiled the GoCDK project to create an executable binary.
-
-Clone the GoCDK repository if you haven't already:
+### Step 1: Clone and Compile the GoCDK Project
 ```bash
 git clone https://github.com/yourusername/gocdk.git
 cd gocdk
-```
-
-Compile the project:
-```bash
 go build -o gocdk
 ```
-This will create an executable named `gocdk` in your current directory.
+This creates an executable named `gocdk`.
 
 ### Step 2: Move the Binary to a Desired Location
-
-Decide where you want to use the binary. You can place it in a specific project's directory, or in a directory that's in your system's PATH for easier access.
-
-To move the binary to a specific project:
 ```bash
 mv gocdk /path/to/your/other/project
-```
-
-To make the binary globally accessible (assuming `/usr/local/bin` is in your PATH):
-```bash
+# Or globally
 sudo mv gocdk /usr/local/bin
 ```
 
-### Step 3: Using the Binary in Another Project
+### Step 3: Detailed Slack Integration Instructions
+#### Setting Up Slack App for OAuth Token
+1. Navigate to the [Slack API](https://api.slack.com/apps) and click "Create New App".
+2. Choose "From scratch", name your app, and select your Slack workspace.
+3. In "OAuth & Permissions", under "Scopes", add `chat:write` to Bot Token Scopes.
+4. Install the app to your workspace. After installation, copy the "Bot User OAuth Access Token".
 
-To use the binary in another project, navigate to the project's directory in the terminal and execute the binary:
+#### Configuring the GoCDK Project
+Set the following environment variables:
+- `SLACK_TOKEN` with your Slack Bot User OAuth Access Token.
+- `SLACK_CHANNEL_ID` with the ID of the Slack channel where messages will be sent.
+These can be set in your shell or through a `.env` file.
+
+### Step 4: Using the Binary
+Execute the binary in your project's directory to pass arguments directly to CDK:
 ```bash
 cd /path/to/your/other/project
-./gocdk [arguments]
+./gocdk [cdk arguments]
 ```
-
-Or, if you've placed it in a location in your PATH:
+Or, if in your PATH:
 ```bash
-gocdk [arguments]
+gocdk [cdk arguments]
 ```
-
-Replace `[arguments]` with any arguments required by the GoCDK application.
-
-### Step 4: Integrating with Project Workflows
-
-You can integrate the GoCDK binary into your project's workflows or scripts. For example, you can call it from a shell script or include it in your project's build process.
+The `gocdk` binary acts as a wrapper, passing all arguments to the AWS CDK command line interface.
 
 ## Troubleshooting
-
-If you encounter issues while using the binary, ensure that:
-- The binary has the correct execution permissions (`chmod +x gocdk`).
-- You are using the correct path to the binary.
-- All necessary environment variables are set correctly.
-
-# GoCDK Slack Integration
-
-## Overview
-
-This application integrates the GoCDK project with Slack, allowing you to send output from CDK commands directly to a Slack channel. This README provides instructions on setting up the integration and obtaining the necessary Slack OAuth token.
-
-## Prerequisites
-
-- A Slack account and a workspace where you can create apps.
-- Golang environment set up for running and compiling the GoCDK project.
-
-## Setting Up Slack App for OAuth Token
-
-To use this integration, you need to create a Slack app and obtain an OAuth token:
-
-1. **Create a New Slack App**:
-   - Navigate to the [Slack API](https://api.slack.com/apps) page and click on "Create New App".
-   - Choose "From scratch" and give your app a name.
-   - Select the Slack workspace where you want to install the app.
-
-2. **Add Permissions to Your Slack App**:
-   - In the app settings, go to "OAuth & Permissions".
-   - Under "Scopes", add the necessary permissions. For sending messages, add `chat:write`.
-
-3. **Install App to Workspace**:
-   - At the top of the "OAuth & Permissions" page, click "Install to Workspace" and authorize the permissions.
-
-4. **Copy the OAuth Access Token**:
-   - After installation, you will see an "OAuth Access Token" on the same page. Copy this token.
-
-## Configuring the GoCDK Project
-
-Set up your environment with the Slack OAuth token and the channel ID where messages will be sent:
-
-1. **Set Environment Variables**:
-   - Set `SLACK_TOKEN` with your OAuth Access Token.
-   - Set `SLACK_CHANNEL_ID` with the ID of the channel where messages will be sent.
-   - These can be set in your shell or through a `.env` file.
-
-2. **Compile and Run the GoCDK Project**:
-   - Navigate to your GoCDK project directory.
-   - Compile and run your project. It should now send messages to the specified Slack channel.
-
-## Usage
-
-Run the application with CDK commands as arguments. The output, along with a status message indicating success or failure, will be sent to the specified Slack channel.
-
-## Troubleshooting
-
-- Ensure the Slack app has the correct permissions and the OAuth token is valid.
-- Check the channel ID for accuracy.
-- For detailed errors, check the application logs.
+- Ensure the `gocdk` binary has the correct execution permissions (`chmod +x gocdk`).
+- Verify the correct path to the binary and correct setting of environment variables.
+- For Slack integration, ensure a valid OAuth token and accurate channel ID.
 
 ## Contributing
-
 Contributions to this project are welcome. Please follow the standard fork-and-pull request workflow.
 
 ## License
-
 MIT License
