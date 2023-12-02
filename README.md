@@ -64,3 +64,29 @@ Contributions to this project are welcome. Please follow the standard fork-and-p
 
 ## License
 MIT License
+
+## Setting Environment Variables
+To configure the GoCDK project with Slack integration, set the `SLACK_TOKEN` and `SLACK_CHANNEL_ID` environment variables. Here's how to set them in different shells:
+
+### Bash
+Add the following lines to your `~/.bashrc` or `~/.bash_profile`:
+```bash
+export SLACK_TOKEN='your-slack-token'
+export SLACK_CHANNEL_ID='your-slack-channel-id'
+```
+
+### Fish
+Add the following lines to your `~/.config/fish/config.fish`:
+```fish
+set -x SLACK_TOKEN 'your-slack-token'
+set -x SLACK_CHANNEL_ID 'your-slack-channel-id'
+```
+
+### Zsh
+Add the following lines to your `~/.zshrc`:
+```zsh
+export SLACK_TOKEN='your-slack-token'
+export SLACK_CHANNEL_ID='your-slack-channel-id'
+```
+
+After adding these lines, restart your terminal or source the respective file to apply the changes.
