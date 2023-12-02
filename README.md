@@ -57,6 +57,78 @@ Run the application with CDK commands as arguments. The output, along with a sta
 * Check the channel ID for accuracy.
 * For detailed errors, check the application logs.
 
+# Using the GoCDK Binary in Another Project
+
+## Overview
+
+This section provides instructions on how to use the compiled binary of the GoCDK project in other code repositories. This can be useful if you want to integrate the GoCDK functionalities into different projects or workflows.
+
+## Steps to Use the Binary
+
+### Step 1: Compile the GoCDK Binary
+
+First, ensure that you have compiled the GoCDK project to create an executable binary.
+
+1. Clone the GoCDK repository if you haven't already:
+   <pre><div class="bg-black rounded-md"><div class="flex items-center relative text-gray-200 bg-gray-800 dark:bg-token-surface-primary px-4 py-2 text-xs font-sans justify-between rounded-t-md"><span>bash</span></div></div></pre>
+
+* <pre><div class="bg-black rounded-md"><div class="p-4 overflow-y-auto"><code class="!whitespace-pre hljs language-bash">git clone https://github.com/yourusername/gocdk.git
+  cd gocdk
+  </code></div></div></pre>
+* Compile the project:
+  <pre><div class="bg-black rounded-md"><div class="flex items-center relative text-gray-200 bg-gray-800 dark:bg-token-surface-primary px-4 py-2 text-xs font-sans justify-between rounded-t-md"><span>bash</span></div></div></pre>
+
+1. <pre><div class="bg-black rounded-md"><div class="p-4 overflow-y-auto"><code class="!whitespace-pre hljs language-bash">go build -o gocdk
+   </code></div></div></pre>
+
+   This will create an executable named `gocdk` in your current directory.
+
+### Step 2: Move the Binary to a Desired Location
+
+Decide where you want to use the binary. You can place it in a specific project's directory, or in a directory that's in your system's PATH for easier access.
+
+* To move the binary to a specific project:
+
+  <pre><div class="bg-black rounded-md"><div class="flex items-center relative text-gray-200 bg-gray-800 dark:bg-token-surface-primary px-4 py-2 text-xs font-sans justify-between rounded-t-md"><span>bash</span></div></div></pre>
+* <pre><div class="bg-black rounded-md"><div class="p-4 overflow-y-auto"><code class="!whitespace-pre hljs language-bash">mv gocdk /path/to/your/other/project
+  </code></div></div></pre>
+* To make the binary globally accessible (assuming `/usr/local/bin` is in your PATH):
+
+  <pre><div class="bg-black rounded-md"><div class="flex items-center relative text-gray-200 bg-gray-800 dark:bg-token-surface-primary px-4 py-2 text-xs font-sans justify-between rounded-t-md"><span>bash</span></div></div></pre>
+* <pre><div class="bg-black rounded-md"><div class="p-4 overflow-y-auto"><code class="!whitespace-pre hljs language-bash">sudo mv gocdk /usr/local/bin
+  </code></div></div></pre>
+
+### Step 3: Using the Binary in Another Project
+
+To use the binary in another project, navigate to the project's directory in the terminal and execute the binary:
+
+<pre><div class="bg-black rounded-md"><div class="flex items-center relative text-gray-200 bg-gray-800 dark:bg-token-surface-primary px-4 py-2 text-xs font-sans justify-between rounded-t-md"><span>bash</span></div></div></pre>
+
+<pre><div class="bg-black rounded-md"><div class="p-4 overflow-y-auto"><code class="!whitespace-pre hljs language-bash">cd /path/to/your/other/project
+./gocdk [arguments]
+</code></div></div></pre>
+
+Or, if you've placed it in a location in your PATH:
+
+<pre><div class="bg-black rounded-md"><div class="flex items-center relative text-gray-200 bg-gray-800 dark:bg-token-surface-primary px-4 py-2 text-xs font-sans justify-between rounded-t-md"><span>bash</span></div></div></pre>
+
+<pre><div class="bg-black rounded-md"><div class="p-4 overflow-y-auto"><code class="!whitespace-pre hljs language-bash">gocdk [arguments]
+</code></div></div></pre>
+
+Replace `[arguments]` with any arguments required by the GoCDK application.
+
+### Step 4: Integrating with Project Workflows
+
+You can integrate the GoCDK binary into your project's workflows or scripts. For example, you can call it from a shell script or include it in your project's build process.
+
+## Troubleshooting
+
+If you encounter issues while using the binary, ensure that:
+
+* The binary has the correct execution permissions (`chmod +x gocdk`).
+* You are using the correct path to the binary.
+* All necessary environment variables are set correctly.
+
 ## Contributing
 
 Contributions to this project are welcome. Please follow the standard fork-and-pull request workflow.
